@@ -1,0 +1,43 @@
+# Git files
+.git
+.gitignore
+
+# Python cache
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info
+dist
+build
+
+# Virtual environment
+venv
+env
+ENV
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Documentation (optional - remove if you want them in the container)
+ASSUMPTIONS.md
+DATA_SCHEMA.md
+KPI_FORMULAS.md
+README.md
+
+# Data exploration script (optional)
+explore_data.py
+
+# Streamlit cache
+.streamlit
