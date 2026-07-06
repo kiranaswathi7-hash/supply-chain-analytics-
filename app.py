@@ -310,5 +310,6 @@ elif page == "AI Copilot":
     from pages import ai_copilot
     ai_copilot.show()
 
-if __name__ == "__main__":
-    pass
+# Top-level app variable for deployment compatibility
+app = st
+application = st
