@@ -26,38 +26,40 @@ def load_themes():
     except FileNotFoundError:
         # Fallback to default themes if file not found
         return {
-            "High-Tech Dark": {
-                "app_bg": "#121212",
-                "sidebar_bg": "#2d1b4e",
-                "card_bg": "#1E1E1E",
-                "text_color": "#E1E1E1",
-                "title_color": "#8931EF",
-                "accent_color": "#8931EF",
-                "border_color": "#8931EF",
-                "kpi_value": "#FFFFFF",
-                "kpi_label": "#E0E0E0",
-                "header_color": "#FFFFFF",
-                "chart_bg": "#1E1E1E",
-                "chart_text": "#E0E0E0",
-                "chart_axis": "#E0E0E0",
-                "button_bg": "#8931EF",
-                "button_hover": "#7C2DD9",
-                "color_scale": "Purples"
-            }
+            "Ocean Deep": {
+      "app_bg": "linear-gradient(135deg, #0c2340, #1a5276, #2e86c1)",
+      "sidebar_bg": "#0a1f33",
+      "card_bg": "rgba(255, 255, 255, 0.08)",
+      "text_color": "#E8F4FD",
+      "title_color": "#85c1e9",
+      "accent_color": "#85c1e9",
+      "border_color": "#85c1e9",
+      "kpi_value": "#FFFFFF",
+      "kpi_label": "#AED6F1",
+      "header_color": "#FFFFFF",
+      "chart_bg": "rgba(255, 255, 255, 0.05)",
+      "chart_text": "#E8F4FD",
+      "chart_axis": "#E8F4FD",
+      "button_bg": "#2e86c1",
+      "button_hover": "#1a5276",
+      "color_scale": "Blues"
+    },
         }
 
 THEMES = load_themes()
 
 # Initialize theme in session state
 if "theme" not in st.session_state:
-    st.session_state.theme = "Peacock Deep"
+    st.session_state.theme = "Cyberpunk"
 
 # Get current theme colors
 theme = THEMES[st.session_state.theme]
 
-# Dynamic CSS based on selected theme
+# Dynamic CSS with gradient background support
 st.markdown(f"""
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+    
     /* Hide Streamlit default header/menu */
     .stApp [data-testid="stHeader"] {{
         display: none;
@@ -77,39 +79,51 @@ st.markdown(f"""
         display: none;
     }}
     
-    /* Main app background */
+    /* Main app background with gradient support */
     .stApp {{
-        background-color: {theme['app_bg']};
+        background: {theme['app_bg']};
         color: {theme['text_color']};
+        min-height: 100vh;
+        font-family: 'Poppins', sans-serif;
+    }}
+    
+    /* Ensure content area has transparent background to show gradient */
+    .stApp > div:first-child {{
+        background: transparent !important;
+    }}
+    
+    /* Apply Poppins font to all headings */
+    h1, h2, h3, h4, h5, h6 {{
+        font-family: 'Poppins', sans-serif !important;
     }}
     
     /* Main title with enhanced styling */
     .main-title {{
+        font-family: 'Poppins', sans-serif;
         font-size: 2.5rem;
-        font-weight: bold;
+        font-weight: 700;
         color: {theme['title_color']};
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
         letter-spacing: -0.5px;
     }}
     
-    /* KPI cards with 3D effect */
+    /* KPI cards with glassmorphism effect */
     .kpi-card {{
-        background: linear-gradient(145deg, {theme['card_bg']}, {theme['card_bg']}dd);
+        background: {theme['card_bg']};
+        backdrop-filter: blur(10px);
         padding: 1.5rem;
         border-radius: 1rem;
-        border-left: 4px solid {theme['border_color']};
+        border: 1px solid rgba(255, 255, 255, 0.1);
         box-shadow: 
-            0 4px 16px rgba(0, 0, 0, 0.1),
-            0 2px 8px rgba(0, 0, 0, 0.05),
-            inset 0 1px 2px rgba(255, 255, 255, 0.1);
+            0 8px 32px rgba(0, 0, 0, 0.1),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
         transition: transform 0.2s ease, box-shadow 0.2s ease;
     }}
     .kpi-card:hover {{
         transform: translateY(-2px);
         box-shadow: 
-            0 8px 24px rgba(0, 0, 0, 0.15),
-            0 4px 12px rgba(0, 0, 0, 0.08),
-            inset 0 1px 2px rgba(255, 255, 255, 0.15);
+            0 12px 48px rgba(0, 0, 0, 0.15),
+            inset 0 1px 0 rgba(255, 255, 255, 0.15);
     }}
     .kpi-value {{
         font-size: 2.5rem;
@@ -122,62 +136,63 @@ st.markdown(f"""
         font-weight: 500;
     }}
     
-    /* Metrics with enhanced styling */
+    /* AI Copilot specific styling - ensuring dark text */
+    .ai-copilot-container {{
+        background: rgba(255, 255, 255, 0.9) !important;
+        backdrop-filter: blur(10px);
+        border-radius: 12px;
+        padding: 1.5rem;
+        color: #1a1a1a !important;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+    }}
+    .ai-copilot-container * {{
+        color: #1a1a1a !important;
+    }}
+    
+    /* Custom card for AI content */
+    .ai-card {{
+        background: rgba(255, 255, 255, 0.95) !important;
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+    }}
+    
+    /* Metrics with glassmorphism */
     .stMetric {{
-        background: linear-gradient(145deg, {theme['card_bg']}, {theme['card_bg']}dd);
+        background: {theme['card_bg']};
+        backdrop-filter: blur(10px);
         padding: 1.2rem;
         border-radius: 0.75rem;
         color: {theme['text_color']};
-        box-shadow: 
-            0 2px 12px rgba(0, 0, 0, 0.08),
-            inset 0 1px 2px rgba(255, 255, 255, 0.1);
-        border: 1px solid rgba(128, 128, 128, 0.1);
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        transition: transform 0.2s ease;
     }}
     .stMetric:hover {{
         transform: translateY(-1px);
-        box-shadow: 
-            0 4px 16px rgba(0, 0, 0, 0.12),
-            inset 0 1px 2px rgba(255, 255, 255, 0.15);
-    }}
-    .stMetric label {{
-        color: {theme['kpi_label']};
-        font-weight: 600;
-        font-size: 0.9rem;
-    }}
-    .stMetric .stMetricValue {{
-        color: {theme['kpi_value']};
-        font-weight: 700;
-        font-size: 1.8rem;
     }}
     
-    /* Headers - all levels with enhanced styling */
+    /* Headers */
     h1, h2, h3, h4, h5, h6 {{
         color: {theme['header_color']} !important;
         font-weight: 600;
         letter-spacing: -0.3px;
     }}
     
-    /* Subheaders */
-    .css-1d391kg {{
-        color: {theme['text_color']} !important;
-    }}
-    
-    /* Dataframes and tables with enhanced styling */
+    /* Dataframes and tables */
     .stDataFrame {{
-        background-color: {theme['card_bg']};
+        background: {theme['card_bg']};
+        backdrop-filter: blur(10px);
         color: {theme['text_color']};
         border-radius: 0.5rem;
         overflow: hidden;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.1);
     }}
     .stDataFrame th {{
-        background: {theme['accent_color']}22;
+        background: rgba(255, 255, 255, 0.1);
         color: {theme['header_color']};
         font-weight: 600;
-    }}
-    .stDataFrame td {{
-        border-bottom: 1px solid rgba(128, 128, 128, 0.1);
     }}
     
     /* General text */
@@ -185,7 +200,7 @@ st.markdown(f"""
         color: {theme['text_color']};
     }}
     
-    /* Buttons with gradient and 3D effect */
+    /* Buttons with gradient */
     .stButton > button {{
         background: linear-gradient(135deg, {theme['button_bg']}, {theme['button_hover']});
         color: #ffffff;
@@ -193,68 +208,190 @@ st.markdown(f"""
         border-radius: 8px;
         padding: 10px 20px;
         font-weight: 600;
-        box-shadow: 
-            0 4px 12px rgba(0, 0, 0, 0.2),
-            inset 0 1px 2px rgba(255, 255, 255, 0.2);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         transition: all 0.2s ease;
     }}
     .stButton > button:hover {{
-        background: linear-gradient(135deg, {theme['button_hover']}, {theme['button_bg']});
         transform: translateY(-1px);
-        box-shadow: 
-            0 6px 16px rgba(0, 0, 0, 0.25),
-            inset 0 1px 2px rgba(255, 255, 255, 0.3);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
     }}
     
-    /* Selectboxes and inputs */
-    .stSelectbox, .stMultiSelect {{
-        color: {theme['text_color']};
-    }}
-    
-    /* Sidebar styling with enhanced 3D effects */
+    /* ===== SIDEBAR - Consistent Dark Theme ===== */
     [data-testid="stSidebar"] {{
-        background: linear-gradient(180deg, {theme['sidebar_bg']}, {theme['sidebar_bg']}dd);
-        color: #ffffff;
-        box-shadow: 4px 0 16px rgba(0, 0, 0, 0.2);
-        border-right: 1px solid rgba(255, 255, 255, 0.1);
+        background: {theme['sidebar_bg']} !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+        padding: 1rem 0.5rem !important;
+        min-height: 100vh !important;
     }}
+    
+    /* Sidebar - ALL TEXT should be light colored */
     [data-testid="stSidebar"] * {{
-        color: #ffffff !important;
+        color: #f0f0f0 !important;
     }}
-    [data-testid="stSidebar"] .css-1d391kg {{
-        color: #ffffff !important;
-        font-weight: 600;
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    
+    /* Sidebar Title - Bright accent color */
+    [data-testid="stSidebar"] .stSidebarTitle {{
+        color: {theme['sidebar_text']} !important;
+        font-size: 1.6rem !important;
+        font-weight: 700 !important;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+        letter-spacing: 0.5px !important;
     }}
+    
+    /* Sidebar Headings */
+    [data-testid="stSidebar"] h1,
+    [data-testid="stSidebar"] h2,
+    [data-testid="stSidebar"] h3,
+    [data-testid="stSidebar"] h4,
+    [data-testid="stSidebar"] h5,
+    [data-testid="stSidebar"] h6 {{
+        color: {theme['sidebar_text']} !important;
+        font-weight: 600 !important;
+        text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3) !important;
+    }}
+    
+    /* Sidebar Labels - Bright and readable */
     [data-testid="stSidebar"] label {{
-        color: #ffffff !important;
-        font-weight: 500;
+        color: {theme['sidebar_text']} !important;
+        font-weight: 500 !important;
+        font-size: 0.95rem !important;
+        opacity: 0.95;
     }}
+    
+    /* Sidebar radio buttons */
     [data-testid="stSidebar"] .stRadio > label {{
-        color: #ffffff !important;
-        font-weight: 600;
-        padding: 10px 14px;
-        border-radius: 8px;
-        transition: all 0.3s ease;
-        margin: 2px 0;
+        color: {theme['sidebar_text']} !important;
+        font-weight: 600 !important;
+        padding: 10px 14px !important;
+        border-radius: 8px !important;
+        transition: all 0.3s ease !important;
+        margin: 2px 0 !important;
+        font-size: 1rem !important;
+        border-left: 3px solid transparent;
     }}
-    [data-testid="stSidebar"] .stRadio > div {{
-        color: #ffffff !important;
-    }}
+    
+    /* Sidebar radio button hover state */
     [data-testid="stSidebar"] .stRadio > label:hover {{
-        background: rgba(255, 255, 255, 0.15);
-        transform: translateX(4px);
+        background: rgba(255, 255, 255, 0.1) !important;
+        transform: translateX(4px) !important;
+        border-left-color: {theme['sidebar_hover']} !important;
+        color: {theme['sidebar_hover']} !important;
     }}
+    
+    /* Selected radio button */
     [data-testid="stSidebar"] .stRadio [role="radiogroup"] > div {{
-        background: rgba(255, 255, 255, 0.05);
-        padding: 6px;
-        border-radius: 10px;
-        margin: 6px 0;
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.05) !important;
+        padding: 6px !important;
+        border-radius: 10px !important;
+        margin: 6px 0 !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
     }}
-    [data-testid="stSidebar"] .stRadio [role="radiogroup"] > div:hover {{
-        background: rgba(255, 255, 255, 0.08);
-        border-color: rgba(255, 255, 255, 0.2);
+    
+    /* Selected radio button text */
+    [data-testid="stSidebar"] .stRadio [role="radiogroup"] > div[data-selected="true"] label {{
+        color: {theme['sidebar_hover']} !important;
+        background: rgba(255, 255, 255, 0.08) !important;
+        border-left-color: {theme['sidebar_accent']} !important;
+        border-left-width: 3px !important;
+        border-left-style: solid !important;
+    }}
+    
+    /* Sidebar radio button text color */
+    [data-testid="stSidebar"] .stRadio [role="radiogroup"] > div label {{
+        color: {theme['sidebar_text']} !important;
+        transition: color 0.3s ease !important;
+    }}
+    
+    /* Sidebar info and markdown */
+    [data-testid="stSidebar"] .stMarkdown,
+    [data-testid="stSidebar"] .stInfo,
+    [data-testid="stSidebar"] .stAlert {{
+        color: {theme['sidebar_text']} !important;
+    }}
+    
+    /* Sidebar selectbox */
+    [data-testid="stSidebar"] .stSelectbox label {{
+        color: {theme['sidebar_text']} !important;
+    }}
+    
+    [data-testid="stSidebar"] .stSelectbox > div > div {{
+        background: rgba(255, 255, 255, 0.05) !important;
+        border-color: {theme['sidebar_text']}44 !important;
+        color: {theme['sidebar_text']} !important;
+    }}
+    
+    /* Sidebar divider */
+    [data-testid="stSidebar"] hr {{
+        border-color: {theme['sidebar_text']}44 !important;
+        margin: 1rem 0 !important;
+    }}
+    
+    /* Sidebar theme selector */
+    [data-testid="stSidebar"] .stSelectbox [data-testid="stMarkdownContainer"] {{
+        color: {theme['sidebar_text']} !important;
+    }}
+    
+    /* Sidebar data source info */
+    [data-testid="stSidebar"] .stInfo {{
+        background: rgba(255, 255, 255, 0.05) !important;
+        border-left-color: {theme['sidebar_accent']} !important;
+        color: {theme['sidebar_text']} !important;
+    }}
+    
+    /* Sidebar icon colors */
+    [data-testid="stSidebar"] .stSidebarContent .stMarkdown * {{
+        color: {theme['sidebar_text']} !important;
+    }}
+    
+    /* Hover effects for all sidebar interactive elements */
+    [data-testid="stSidebar"] *:hover {{
+        transition: all 0.3s ease !important;
+    }}
+    
+    /* Sidebar scrollbar */
+    [data-testid="stSidebar"] ::-webkit-scrollbar-track {{
+        background: rgba(255, 255, 255, 0.05) !important;
+    }}
+    
+    [data-testid="stSidebar"] ::-webkit-scrollbar-thumb {{
+        background: {theme['sidebar_text']}44 !important;
+        border-radius: 10px !important;
+    }}
+    
+    [data-testid="stSidebar"] ::-webkit-scrollbar-thumb:hover {{
+        background: {theme['sidebar_text']}66 !important;
+    }}
+    
+    /* Custom sidebar accent elements */
+    .sidebar-accent {{
+        color: {theme['sidebar_accent']} !important;
+    }}
+    
+    .sidebar-hover {{
+        color: {theme['sidebar_hover']} !important;
+    }}
+    
+    /* Theme dropdown styling - white text on dark background */
+    [data-testid="stSidebar"] .stSelectbox select {{
+        background: rgba(0, 0, 0, 0.3) !important;
+        color: #ffffff !important;
+        border-color: {theme['sidebar_text']}44 !important;
+    }}
+    
+    [data-testid="stSidebar"] .stSelectbox option {{
+        background: #1a1a1a !important;
+        color: #ffffff !important;
+    }}
+    
+    /* Ensure AI Copilot text is dark */
+    .ai-content {{
+        color: #1a1a1a !important;
+    }}
+    .ai-content h1, .ai-content h2, .ai-content h3 {{
+        color: #1a1a1a !important;
+    }}
+    .ai-content p, .ai-content span, .ai-content div {{
+        color: #1a1a1a !important;
     }}
 </style>
 """, unsafe_allow_html=True)

@@ -19,23 +19,23 @@ def load_themes():
     except FileNotFoundError:
         # Fallback to default themes if file not found
         return {
-            "High-Tech Dark": {
-                "app_bg": "#121212",
-                "sidebar_bg": "#2d1b4e",
-                "card_bg": "#1E1E1E",
-                "text_color": "#E1E1E1",
-                "title_color": "#8931EF",
-                "accent_color": "#8931EF",
-                "border_color": "#8931EF",
+            "Peacock Deep": {
+                "app_bg": "linear-gradient(135deg, #0a0e27, #0d1b3e, #1a2f5a)",
+                "sidebar_bg": "#0a0e27",
+                "card_bg": "rgba(255, 255, 255, 0.07)",
+                "text_color": "#E8F0FE",
+                "title_color": "#4fc3f7",
+                "accent_color": "#4fc3f7",
+                "border_color": "#4fc3f7",
                 "kpi_value": "#FFFFFF",
-                "kpi_label": "#E0E0E0",
+                "kpi_label": "#B3E5FC",
                 "header_color": "#FFFFFF",
-                "chart_bg": "#1E1E1E",
-                "chart_text": "#E0E0E0",
-                "chart_axis": "#E0E0E0",
-                "button_bg": "#8931EF",
-                "button_hover": "#7C2DD9",
-                "color_scale": "Purples"
+                "chart_bg": "rgba(255, 255, 255, 0.05)",
+                "chart_text": "#E8F0FE",
+                "chart_axis": "#E8F0FE",
+                "button_bg": "#0288d1",
+                "button_hover": "#01579b",
+                "color_scale": "Blues"
             }
         }
 
@@ -43,8 +43,8 @@ THEMES = load_themes()
 
 def get_theme_colors():
     """Get current theme colors from session state"""
-    theme_name = st.session_state.get("theme", "High-Tech Dark")
-    return THEMES.get(theme_name, THEMES["High-Tech Dark"])
+    theme_name = st.session_state.get("theme", "Cyberpunk")
+    return THEMES.get(theme_name, THEMES["Cyberpunk"])
 
 @st.cache_data(ttl=3600)  # Cache for 1 hour
 def load_all_data():
